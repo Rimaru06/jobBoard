@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+
+  /* Glow color per semantic context — components override this locally
+     (e.g. a status badge sets --glow-color to its own status color)
+     rather than every glow being the same accent blue everywhere. */
+  --glow-color: rgba(91, 141, 239, 0.4);
+}
+
+* {
+  border-color: theme("colors.border.DEFAULT");
+}
+
+html,
+body {
+  background: theme("colors.bg.DEFAULT");
+  color: theme("colors.text.primary");
+}
+
+body {
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Compact, consistent focus ring across the app — replaces the browser
+   default outline but stays clearly visible (accessibility floor). */
+:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 1px theme("colors.bg.DEFAULT"),
+    0 0 0 3px theme("colors.accent.DEFAULT");
+  border-radius: theme("borderRadius.sm");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Used by the landing page hero badge — a single, subtle entrance,
+   not a persistent animation. Respects prefers-reduced-motion via the
+   global override above (duration collapses to ~0). */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Thin, dark-mode-friendly scrollbars — keeps the dense layout from
+   feeling cluttered with default OS scrollbar chrome. */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: theme("colors.border.hover");
+  border-radius: 999px;
+}

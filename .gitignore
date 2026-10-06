@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Next.js build output
+.next/
+out/
+
+# Environment variables — never commit real secrets
+.env
+.env.local
+.env.*.local
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Supabase CLI local state
+supabase/.branches/
+supabase/.temp/
+
+# Editor/OS
+.DS_Store

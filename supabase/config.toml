@@ -1,0 +1,21 @@
+project_id = "friendboard"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public"]
+extra_search_path = ["public"]
+max_rows = 1000
+
+[db]
+port = 54322
+major_version = 15
+
+[studio]
+enabled = true
+port = 54323
+
+[auth]
+# Supabase Auth is not used — FriendBoard authenticates with a custom
+# invite + PIN cookie session (see lib/session.ts, lib/actions/auth.ts).
+enabled = false
