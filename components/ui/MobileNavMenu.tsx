@@ -2,14 +2,20 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { Menu, X, LogOut } from "lucide-react";
+import { Menu, X, LogOut, Briefcase, ClipboardList, Shield } from "lucide-react";
 import { logout } from "@/lib/actions/auth";
 
 export interface NavLink {
   href: string;
   label: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: "briefcase" | "clipboard" | "shield";
 }
+
+const navIcons = {
+  briefcase: Briefcase,
+  clipboard: ClipboardList,
+  shield: Shield,
+} as const;
 
 /**
  * Small-viewport nav menu (usable down to 320px) — a hamburger button
@@ -55,7 +61,9 @@ export function MobileNavMenu({ links, userName }: { links: NavLink[]; userName:
           role="menu"
           className="absolute right-0 top-full z-30 mt-1 w-48 overflow-hidden rounded border border-border bg-bg-panel shadow-xl motion-safe:animate-[fadeIn_0.12s_ease-out]"
         >
-          {links.map(({ href, label, icon: Icon }) => (
+          {links.map(({ href, label, icon }) => {
+            const Icon = navIcons[icon];
+            return (
             <Link
               key={href}
               href={href}
@@ -66,7 +74,8 @@ export function MobileNavMenu({ links, userName }: { links: NavLink[]; userName:
               <Icon className="h-3.5 w-3.5" aria-hidden />
               {label}
             </Link>
-          ))}
+            );
+          })}
           <form action={logout}>
             <button
               type="submit"

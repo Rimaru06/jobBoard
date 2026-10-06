@@ -16,9 +16,9 @@ export async function NavBar() {
 
   const links: NavLink[] = viewer
     ? [
-        { href: "/board", label: "Board", icon: Briefcase },
-        { href: `/tracker/${viewer.id}`, label: "My Tracker", icon: ClipboardList },
-        ...(viewer.role === "admin" ? [{ href: "/admin", label: "Admin", icon: Shield }] : []),
+        { href: "/board", label: "Board", icon: "briefcase" },
+        { href: `/tracker/${viewer.id}`, label: "My Tracker", icon: "clipboard" },
+        ...(viewer.role === "admin" ? [{ href: "/admin", label: "Admin", icon: "shield" }] : []),
       ]
     : [];
 

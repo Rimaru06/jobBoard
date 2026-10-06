@@ -55,6 +55,8 @@ export async function verifyAdminPin(pin: string): Promise<ActionResult<null>> {
     }
 
     const hash = process.env.ADMIN_PIN_HASH;
+    console.log("ADMIN_PIN_HASH:", hash); // Log the hash for debugging purposes
+    console.log(pin); // Log the provided pin for debugging purposes
     if (!hash) throw new Error("ADMIN_PIN_HASH is not configured");
 
     const valid = await bcrypt.compare(pin, hash);
