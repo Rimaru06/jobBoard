@@ -4,6 +4,12 @@ import { getCurrentUser } from "@/lib/auth";
 import { logout } from "@/lib/actions/auth";
 import { MobileNavMenu, type NavLink } from "@/components/ui/MobileNavMenu";
 
+const navIcons = {
+  briefcase: Briefcase,
+  clipboard: ClipboardList,
+  shield: Shield,
+} as const;
+
 /**
  * Top navigation bar — server component reading the session directly.
  * Interactive bits (logout button, mobile menu) are pushed into small
@@ -16,9 +22,11 @@ export async function NavBar() {
 
   const links: NavLink[] = viewer
     ? [
-        { href: "/board", label: "Board", icon: "briefcase" },
-        { href: `/tracker/${viewer.id}`, label: "My Tracker", icon: "clipboard" },
-        ...(viewer.role === "admin" ? [{ href: "/admin", label: "Admin", icon: "shield" }] : []),
+        { href: "/board", label: "Board", icon: "briefcase" as const },
+        { href: `/tracker/${viewer.id}`, label: "My Tracker", icon: "clipboard" as const },
+        ...(viewer.role === "admin"
+          ? [{ href: "/admin", label: "Admin", icon: "shield" as const }]
+          : []),
       ]
     : [];
 
@@ -39,16 +47,19 @@ export async function NavBar() {
           <>
             {/* Inline links — sm and up */}
             <div className="hidden items-center gap-1 sm:flex">
-              {links.map(({ href, label, icon: Icon }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  className="inline-flex items-center gap-1 rounded-sm px-2 py-1 text-[11px] text-text-muted hover:bg-bg-raised hover:text-text-primary"
-                >
-                  <Icon className="h-3 w-3" aria-hidden />
-                  {label}
-                </Link>
-              ))}
+              {links.map(({ href, label, icon }) => {
+                const Icon = navIcons[icon];
+                return (
+                  <Link
+                    key={href}
+                    href={href}
+                    className="inline-flex items-center gap-1 rounded-sm px-2 py-1 text-[11px] text-text-muted hover:bg-bg-raised hover:text-text-primary"
+                  >
+                    <Icon className="h-3 w-3" aria-hidden />
+                    {label}
+                  </Link>
+                );
+              })}
 
               {/* Logout via server action — no JS event handler needed */}
               <form action={logout}>
